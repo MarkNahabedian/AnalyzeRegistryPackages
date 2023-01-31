@@ -7,8 +7,13 @@ and collect the results in a tab separated values file.
 
 For the Julia General registry I collected these results:
 
-* [raw data]
-* [lines of test code versus lines of source code]
-* [lines of README file versus lines of source code]
-* [lines of documentation versus lines of source code]
-* [lines of README and documentation versus lines of source code]
+* [raw data](https://raw.githubusercontent.com/MarkNahabedian/AnalyzeRegistryPackages.jl/main/data/collected_linecounts.tsv)
+
+* [lines of test code versus lines of source code](https://github.com/MarkNahabedian/AnalyzeRegistryPackages.jl/blob/main/data/graph-src-tests.svg)
+
+* [lines of README file versus lines of source code](https://github.com/MarkNahabedian/AnalyzeRegistryPackages.jl/blob/main/data/graph-src-readme.svg)
+
+* [lines of documentation versus lines of source code](https://github.com/MarkNahabedian/AnalyzeRegistryPackages.jl/blob/main/data/graph-src-docs.svg)
+
+* [lines of README and documentation versus lines of source code](https://github.com/MarkNahabedian/AnalyzeRegistryPackages.jl/blob/main/data/graph-src-docs%2Breadme.svg)
+
