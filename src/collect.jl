@@ -3,9 +3,10 @@ export collect_stats_from_registry
 EXCEPTION = nothing
 
 function collect_stats_from_registry(registry_repo)
-    ensue_collection_file()
+    ensure_collection_file()
+    throttle = throttle_for(registry_repo)
+    throttle_request(throttle)
     toml = fetch_registry_toml(registry_repo)
-    # tick = now()                                     # RATE
     packages = toml["packages"]
     remaining = length(packages)
     done = whats_done()
@@ -16,19 +17,10 @@ function collect_stats_from_registry(registry_repo)
             # Skip a package if it's already been analyzed
             return
         end
-        #=
-        # Github API rate limit 60 requests per hour unless we
-        # authenticate.
-        tock = now() - tick                          # RATE
-        if tock < GITHUB_TIME_BETWEEN_CALLS
-            sleep(GITHUB_TIME_BETWEEN_CALLS - tock)
-        end
-        =#
         path = d["path"]
+        throttle_request(throttle)
         t = TOML.parse(fetch_gh_file_contents(registry_repo, "$path/Package.toml"))
-        # tick = now()                                 # RATE
         @assert uuid == t["uuid"]
-        # url_to_repo(t["repo"])
         stats = get_stats_from_package(t["repo"])
         write_stats(name, uuid, stats...)
         remaining -= 1

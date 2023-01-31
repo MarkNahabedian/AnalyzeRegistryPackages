@@ -21,7 +21,7 @@ end
 
 GH_REQUEST_COUNT = 0
 
-function fetch_gh_file_contents(repo, path)
+function fetch_gh_file_contents(repo::GitHub.Repo, path)
     GH_REQUEST_COUNT += 1
     f = GitHub.file(repo, path; auth = GH_AUTH)
     @assert f.typ == "file"
@@ -31,5 +31,33 @@ end
 
 function fetch_registry_toml(repo::GitHub.Repo)
     TOML.parse(fetch_gh_file_contents(repo, "Registry.toml"))
+end
+
+mutable struct GitHubThrottle
+    repo::GitHubRepo
+    request_count::Int
+    window_end
+    max_requests_per_hour
+
+    GitHubThrottle(repo::GitHub.Repo) =
+        new(repo, 0, now() + hour(1))
+end
+
+function throttle_for(repo::GitHub.Repo)
+    GitHubThrottle(repo)
+end
+
+function throttle_request(t::GitHubThrottle)
+    if t.request_count == 0
+        t.window_end = now() + Hour(1)
+    end
+    if now() > t.window_end
+        t.request_count = 0
+        t.window_end = now() + Hour(1)
+    end
+    if t.request_count + 1 >= t.max_requests_per_hour
+        sleep(t.window_end - now())
+    end
+    t.request_count += 1
 end
 
