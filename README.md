@@ -17,3 +17,4 @@ For the Julia General registry I collected these results:
 
 * [lines of README and documentation versus lines of source code](https://github.com/MarkNahabedian/AnalyzeRegistryPackages.jl/blob/main/data/graph-src-docs%2Breadme.svg)
 
+In the scatter plots, jll packages are red, Julia packages are green.
