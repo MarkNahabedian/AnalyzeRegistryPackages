@@ -1,0 +1,13 @@
+name = "AnalyzeRegistryPackages"
+uuid = "75f595a3-4e19-4b28-b562-b0f1b04c3b45"
+authors = ["MarkNahabedian <naha@mit.edu> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1.8"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

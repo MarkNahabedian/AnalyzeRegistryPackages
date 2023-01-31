@@ -1,0 +1,3 @@
+[deps]
+AnalyzeRegistryPackages = "75f595a3-4e19-4b28-b562-b0f1b04c3b45"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
