@@ -43,7 +43,7 @@ end
 # For a given metric, show the number of non-JLL projects that satisfy
 # the metric versus the value of the metrc.
 
-function threshold_satisfaction_plot(title, extractor)
+function threshold_satisfaction_plot(filename, title, extractor)
     csvf = CSV.File(COLLECTION_FILE)
     # key is value of the metric, value is count of projects with that
     # value.
@@ -78,7 +78,6 @@ function threshold_satisfaction_plot(title, extractor)
              ylabel = "satisfies fraction",
              xticks = 0:10^(cld(log10(total), 1) - 1):total,
              yticks = 0.0:0.1:1.0)
-    Plots.svg(p, abspath(joinpath(COLLECTION_FILE,
-                                  "../satisfies-$title.svg")))
+    Plots.svg(p, abspath(joinpath(COLLECTION_FILE, "..", filename)))
 end
 
