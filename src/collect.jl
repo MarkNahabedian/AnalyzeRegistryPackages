@@ -3,7 +3,7 @@ export collect_stats_from_registry
 EXCEPTION = nothing
 
 function collect_stats_from_registry(registry_repo)
-    ensure_collection_file()
+    ensue_collection_file()
     throttle = throttle_for(registry_repo)
     throttle_request(throttle)
     toml = fetch_registry_toml(registry_repo)
@@ -44,14 +44,11 @@ end
 function get_stats_from_package(package_url::String)
     println("$(Dates.format(Dates.now(), "HH:MM:SS"))   Analyzing $package_url")
     analysis = PackageAnalyzer.analyze(package_url)
+    reach = analysis.reachable
     src = PackageAnalyzer.count_julia_loc(analysis, "src")
     tests = PackageAnalyzer.count_julia_loc(analysis, "test")
     docs = PackageAnalyzer.count_docs(analysis)
     readme = PackageAnalyzer.count_readme(analysis)
-    return src, tests, docs, readme
+    return reach, src, tests, docs, readme
 end
-
-
-# ensue_collection_file()
-# collect_stats_from_registry(JULIA_GENERAL_REGISTRY)
 

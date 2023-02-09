@@ -5,7 +5,7 @@ COLLECTION_FILE = abspath(joinpath(@__DIR__, "../data/collected_linecounts.tsv")
 
 COLLECTION_FILE_COLUMNS = [
     "Name", "UUID",
-    "src", "tests", "docs", "readme"
+    "reachable", "src", "tests", "docs", "readme"
 ]
 
 function ensue_collection_file()
