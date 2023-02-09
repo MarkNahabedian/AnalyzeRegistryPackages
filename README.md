@@ -5,6 +5,15 @@
 Run `PackageAnalyzer.analyze` on every package in a specified registry
 and collect the results in a tab separated values file.
 
+One can run it on a local clone of the General Registry to avoid
+GitHub throttling:
+
+```
+using AnalyzeRegistryPackages
+collect_stats_from_registry(joinpath(homedir(), ".julia/registries/General"))
+```
+
+
 For the Julia General registry I collected these results:
 
 * [raw data](https://raw.githubusercontent.com/MarkNahabedian/AnalyzeRegistryPackages.jl/main/data/collected_linecounts.tsv)
