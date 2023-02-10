@@ -3,13 +3,16 @@ export collect_stats_from_registry
 EXCEPTION = nothing
 
 function collect_stats_from_registry(registry_repo)
-    ensue_collection_file()
+    collection_file = new_file_path(COLLECTION_FILE)
+    uri_file = new_file_path(REPO_URIS_FILE)
+    ensure_tsv_file(collection_file, COLLECTION_FILE_COLUMNS)
+    ensure_tsv_file(uri_file, REPO_URIS_COLUMNS)
     throttle = throttle_for(registry_repo)
     throttle_request(throttle)
     toml = fetch_registry_toml(registry_repo)
     packages = toml["packages"]
     remaining = length(packages)
-    done = whats_done()
+    done = whats_done(collection_file)
     remaining -= length(done)
     function do_package(uuid, d)
         name = d["name"]
@@ -22,7 +25,8 @@ function collect_stats_from_registry(registry_repo)
         t = TOML.parse(fetch_gh_file_contents(registry_repo, "$path/Package.toml"))
         @assert uuid == t["uuid"]
         stats = get_stats_from_package(t["repo"])
-        write_stats(name, uuid, stats...)
+        write_tsv_row(uri_file, name, uuid, t["repo"])
+        write_tsv_row(collection_file, name, uuid, stats...)
         remaining -= 1
         if mod(remaining, 10) == 0
             println("$remaining remaining.")

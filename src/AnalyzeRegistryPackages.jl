@@ -13,6 +13,7 @@ using URIs
 include("fetch.jl")
 include("collection_file.jl")
 include("collect.jl")
+include("metrics.jl")
 include("plots.jl")
 
 end

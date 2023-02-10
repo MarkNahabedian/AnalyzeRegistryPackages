@@ -1,37 +1,46 @@
 
-export COLLECTION_FILE, ensue_collection_file
+export COLLECTION_FILE, COLLECTION_FILE_COLUMNS
+export REPO_URIS_FILE, REPO_URIS_COLUMNS
+export new_file_path, ensure_tsv_file, write_tsv_row
 
 COLLECTION_FILE = abspath(joinpath(@__DIR__, "../data/collected_linecounts.tsv"))
+REPO_URIS_FILE = abspath(joinpath(@__DIR__, "../data/repo_URIs.tsv"))
 
 COLLECTION_FILE_COLUMNS = [
     "Name", "UUID",
     "reachable", "src", "tests", "docs", "readme"
 ]
 
-function ensue_collection_file()
-    if ispath(COLLECTION_FILE)
+REPO_URIS_COLUMNS = [
+    "Name", "UUID", "URI"
+]
+
+function new_file_path(path)
+    s = splitpath(path)
+    s[lastindex(s)] = "new-" * s[lastindex(s)]
+    joinpath(s)
+end
+
+function ensure_tsv_file(path, columns)
+    if ispath(path)
         return
     end
-    open(COLLECTION_FILE, write=true) do io
-        write(io, join(COLLECTION_FILE_COLUMNS, '\t'))
+    open(path, write=true) do io
+        write(io, join(columns, '\t'))
         write(io, "\n")
     end
 end
 
-function write_stats(name, uuid, stats...)
-    open(COLLECTION_FILE, append=true) do io
-        write(io, join([
-            "\"$name\"",
-            "\"$uuid\"",
-            stats...
-                ], "\t"))
-        write(io, "\n")
+function write_tsv_row(path, row...)
+    open(path, append=true) do io
+        write(io, join([row...], "\t"))
+        write(io, "\n")        
     end
 end
 
-function whats_done()
+function whats_done(collection_file)
     done = Dict{String, String}()
-    csvf = CSV.File(COLLECTION_FILE)
+    csvf = CSV.File(collection_file)
     for row in csvf
         done[row.UUID] = row.Name
     end
