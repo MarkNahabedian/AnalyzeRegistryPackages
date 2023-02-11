@@ -8,11 +8,11 @@ svg_collected(:src, :docs)
 svg_collected(:src, :tests)
 
 threshold_satisfaction_plot("satisfies-test_min_fraction",
-                            row -> row.tests / (row.tests + row.src))
+                            @metric(tests / (tests + src)))
 
 threshold_satisfaction_plot("satisfies-doc_min_fraction",
-                            row -> row.docs / (row.docs + row.src))
+                            @metric( docs / (docs + src)))
 
 threshold_satisfaction_plot("satisfies-readme_min_fraction",
-                            row -> row.readme / (row.readme + row.src))
+                            @metric(readme / (readme + src)))
 
