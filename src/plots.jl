@@ -97,7 +97,8 @@ function threshold_satisfaction_plot(filename, met::Metric)
     if !isempty(just_zeros)
         @info length(just_zeros), join(just_zeros, " ")
     end
-    # Cumulative
+    # Cumulative: key is a value of the metric, value is the number of
+    # projects whose metric value is less than or equal to the key.
     cumulative = SortedDict()
     sum = 0
     for key in keys(stats)
