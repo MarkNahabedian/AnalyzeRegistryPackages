@@ -111,7 +111,7 @@ function threshold_satisfaction_plot(filename, met::Metric)
     p = plot(xs, ys,
              linewidth = 5,
              xlabel = met.text,
-             ylabel = "number of packages meet the threshold",
+             ylabel = "packages not meeting threshold",
              xticks = axis_ticks(xs),
              yticks = axis_ticks(ys))
     Plots.svg(p, abspath(joinpath(COLLECTION_FILE, "..", filename)))
