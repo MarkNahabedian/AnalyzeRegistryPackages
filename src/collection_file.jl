@@ -1,10 +1,11 @@
 
-export COLLECTION_FILE, COLLECTION_FILE_COLUMNS
+export DATA_DIR, COLLECTION_FILE, COLLECTION_FILE_COLUMNS
 export REPO_URIS_FILE, REPO_URIS_COLUMNS
 export new_file_path, ensure_tsv_file, write_tsv_row
 
-COLLECTION_FILE = abspath(joinpath(@__DIR__, "../data/collected_linecounts.tsv"))
-REPO_URIS_FILE = abspath(joinpath(@__DIR__, "../data/repo_URIs.tsv"))
+DATA_DIR = abspath(joinpath(@__DIR__, "../data"))
+COLLECTION_FILE = joinpath(DATA_DIR, "collected_linecounts.tsv")
+REPO_URIS_FILE = joinpath(DATA_DIR, "repo_URIs.tsv")
 
 COLLECTION_FILE_COLUMNS = [
     "Name", "UUID",

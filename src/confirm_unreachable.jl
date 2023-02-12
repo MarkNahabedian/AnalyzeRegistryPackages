@@ -4,6 +4,8 @@
 using DataFrames
 using HTTP
 
+export confirm_unreachable
+
 function confirm_unreachable()
     function request_status(uri::AbstractString)
         (try
@@ -16,13 +18,19 @@ function confirm_unreachable()
              end
          end)
     end
-    transform!(
-        innerjoin(
-            DataFrame(CSV.File(REPO_URIS_FILE)),
-            select(filter(DataFrame(CSV.File(COLLECTION_FILE))) do row
-                       row.reachable == false
-                   end, :Name, :UUID),
-            on = [:Name, :UUID]),
-        :URI => ByRow(request_status))
+    unreachable =
+        transform!(
+            innerjoin(
+                DataFrame(CSV.File(REPO_URIS_FILE)),
+                select(filter(DataFrame(CSV.File(COLLECTION_FILE))) do row
+                           row.reachable == false
+                       end, :Name, :UUID),
+                on = [:Name, :UUID]),
+            :URI => ByRow(request_status))
+    sort!(unreachable, :Name)
+    CSV.write(joinpath(DATA_DIR, "unreachable.tsv"),
+              unreachable,
+              delim = "\t")
+    unreachable
 end
 
