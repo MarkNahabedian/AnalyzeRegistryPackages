@@ -41,3 +41,10 @@ projects would pass at a given threshold value:
 
 * [satisfies-test_min_fraction](https://github.com/MarkNahabedian/AnalyzeRegistryPackages.jl/blob/main/data/satisfies-test_min_fraction.svg)
 
+
+A number of registered projects were reported as unreachable by
+PackageAnalyzer.  The function `confirm_unreachable` can be used to
+see if those repositories are still unreachable and record the HTTP
+status code to a
+[tsv file](https://github.com/MarkNahabedian/AnalyzeRegistryPackages.jl/blob/main/data/unreachable.tsv).
+
