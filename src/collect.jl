@@ -47,7 +47,10 @@ end
 
 function get_stats_from_package(package_url::String)
     println("$(Dates.format(Dates.now(), "HH:MM:SS"))   Analyzing $package_url")
-    analysis = PackageAnalyzer.analyze(package_url)
+    analysis =
+        mktempdir(; prefix="AnalyzePackages_") do root
+            PackageAnalyzer.analyze(package_url; root=root)
+        end
     reach = analysis.reachable
     src = PackageAnalyzer.count_julia_loc(analysis, "src")
     tests = PackageAnalyzer.count_julia_loc(analysis, "test")
